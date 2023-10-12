@@ -95,7 +95,7 @@ if len(sys.argv) ==2:
             print("Las longitudes de las palabras constituyen un codigo instantaneo")
     else:
         print("La codificación NO cumple con las inecuaciones de Kraft y McMillan ")
-    if is_codigo_compacto(palabras_codigo,len(alfabeto_codigo)):
+    if is_codigo_compacto(probabilidad_palabras,len(alfabeto_codigo)):
         print("El codigo es compacto")
   
 else:
