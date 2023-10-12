@@ -55,6 +55,11 @@ def calcular_longitud_media(palabras):
         longitud_media += probabilidad*len(palabra)
     return longitud_media
     
+def KraftyMcMillan(palabras_codigo,cant_simbolos):
+    K=0
+    for palabra in palabras_codigo.items():
+        K+= cant_simbolos ** len(palabra)
+    return K<=1
 
 #probabilidades_simbolos=genera_probabilidades_simbolos(palabras_codigo,alfabeto_codigo)
 #print(probabilidades_simbolos)
@@ -69,5 +74,9 @@ if len(sys.argv) ==2:
     print("El alfabeto resulta: ",alfabeto_codigo)
     entropia=calcular_entropia(palabras_codigo,len(alfabeto_codigo))
     longitud_media= calcular_longitud_media(palabras_codigo)
+    if(KraftyMcMillan(palabras_codigo,len(alfabeto_codigo))):
+        print("La codificación cumple con las inecuaciones de Kraft y McMillan")
+    else:
+        print("La codificación NO cumple con las inecuaciones de Kraft y McMillan")
 else:
     print("Error: no se ha ingresado el nombre del archivo de texto")
