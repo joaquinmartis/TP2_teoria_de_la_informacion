@@ -1,4 +1,5 @@
 import numpy as np
+import math
 import sys
 def cuenta_palabras_codigo(nombre_archivo):
     palabras_codigo={}
@@ -41,7 +42,19 @@ def genera_probabilidades_simbolos(palabras_codigo,alfabeto_codigo):
         probabilidades_simbolos/=total_simbolos
     return probabilidades_simbolos
 
+def calcular_entropia (palabras_codigo, cant_simbolos):
+    entropia = 0
+    for palabra, probabilidad in palabras_codigo.items():
+        if probabilidad > 0:
+            entropia += probabilidad * math.log(1 / probabilidad) /math.log(cant_simbolos)
+    return entropia
 
+def calcular_longitud_media(palabras):
+    longitud_media=0
+    for palabra,probabilidad in palabras.values():
+        longitud_media += probabilidad*len(palabra)
+    return longitud_media
+    
 
 #probabilidades_simbolos=genera_probabilidades_simbolos(palabras_codigo,alfabeto_codigo)
 #print(probabilidades_simbolos)
@@ -54,5 +67,7 @@ if len(sys.argv) ==2:
         print(f"{palabra}: {probabilidad:.2f}")
     alfabeto_codigo= genera_alfabeto_codigo(palabras_codigo)
     print("El alfabeto resulta: ",alfabeto_codigo)
+    entropia=calcular_entropia(palabras_codigo,len(alfabeto_codigo))
+    longitud_media= calcular_longitud_media(palabras_codigo)
 else:
     print("Error: no se ha ingresado el nombre del archivo de texto")
