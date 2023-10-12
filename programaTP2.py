@@ -58,7 +58,7 @@ def calcular_longitud_media(palabras):
 def KraftyMcMillan(palabras_codigo,cant_simbolos):
     K=0
     for palabra in palabras_codigo.items():
-        K+= cant_simbolos ** len(palabra)
+        K+= cant_simbolos ** (-len(palabra))
     return K<=1
 
 #probabilidades_simbolos=genera_probabilidades_simbolos(palabras_codigo,alfabeto_codigo)
