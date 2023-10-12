@@ -48,7 +48,6 @@ def genera_probabilidades_simbolos(palabras_codigo,alfabeto_codigo):
 def calcular_entropia (palabras_codigo, cant_simbolos):
     entropia = 0
     for palabra, probabilidad in palabras_codigo.items():
-        print("palabra: ",palabra," probabilidad: ",probabilidad)
         if probabilidad > 0:
             entropia += probabilidad * math.log(1 / probabilidad) /math.log(cant_simbolos)
     return entropia
