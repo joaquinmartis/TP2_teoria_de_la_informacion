@@ -63,7 +63,7 @@ def KraftyMcMillan(palabras_codigo,cant_simbolos):
 
 def is_codigo_compacto(palabras_codigo,cant_simbolos):
     for palabra,probabilidad in palabras_codigo.items():
-        if(len(palabra)!= round(math.log(1/probabilidad)/math.log(cant_simbolos))):
+        if(len(palabra)<= round(math.log(1/probabilidad)/math.log(cant_simbolos))):
             return False
     return True
 
