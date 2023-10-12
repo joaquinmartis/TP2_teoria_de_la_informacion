@@ -14,11 +14,14 @@ def cuenta_palabras_codigo(nombre_archivo):
     archivo.close()
     return palabras_codigo
 
-def probabilidad_palabras(palabras_codigo):
-    total= sum(palabras_codigo.values())
-    if(total!=0):
-        for palabra in palabras_codigo:
-            palabras_codigo[palabra]/=total
+def genera_probabilidades_palabras_codigo(palabras_codigo):
+    total_palabras=0
+    for palabra in palabras_codigo:
+        total_palabras+=palabras_codigo[palabra]
+    probabilidades_palabras_codigo={}
+    for palabra in palabras_codigo:
+        probabilidades_palabras_codigo[palabra]=palabras_codigo[palabra]/total_palabras
+    return probabilidades_palabras_codigo   
     
 def genera_alfabeto_codigo(palabras_codigo):
     alfabeto = set()  # Usamos un conjunto para asegurar caracteres únicos
@@ -45,14 +48,15 @@ def genera_probabilidades_simbolos(palabras_codigo,alfabeto_codigo):
 def calcular_entropia (palabras_codigo, cant_simbolos):
     entropia = 0
     for palabra, probabilidad in palabras_codigo.items():
+        print("palabra: ",palabra," probabilidad: ",probabilidad)
         if probabilidad > 0:
             entropia += probabilidad * math.log(1 / probabilidad) /math.log(cant_simbolos)
     return entropia
 
-def calcular_longitud_media(palabras):
+def calcular_longitud_media(probabiliad_palabras):
     longitud_media=0
-    for palabra,probabilidad in palabras.values():
-        longitud_media += probabilidad*len(palabra)
+    for palabra in probabiliad_palabras:
+        longitud_media += probabiliad_palabras[palabra]*len(palabra)
     return longitud_media
     
 def KraftyMcMillan(palabras_codigo,cant_simbolos):
@@ -71,20 +75,19 @@ def is_codigo_instantaneo(palabras_codigo):
                 return False
     return True
 
-#probabilidades_simbolos=genera_probabilidades_simbolos(palabras_codigo,alfabeto_codigo)
-#print(probabilidades_simbolos)
-
 if len(sys.argv) ==2:
     palabras_codigo= cuenta_palabras_codigo(sys.argv[1])
-    probabilidad_palabras(palabras_codigo)
+    probabilidad_palabras=genera_probabilidades_palabras_codigo(palabras_codigo)
     print("Las probabilidades de las palabras contenidas en el archivo son:")
-    for palabra, probabilidad in palabras_codigo.items():
-        print(f"{palabra}: {probabilidad:.2f}")
-    alfabeto_codigo= genera_alfabeto_codigo(palabras_codigo)
+    for palabra, probabilidad in probabilidad_palabras.items():
+        print(f"Palabra: {palabra} = {probabilidad:.2f}")
+    alfabeto_codigo= genera_alfabeto_codigo(probabilidad_palabras)
     print("El alfabeto resulta: ",alfabeto_codigo)
-    entropia=calcular_entropia(palabras_codigo,len(alfabeto_codigo))
-    longitud_media= calcular_longitud_media(palabras_codigo)
-    if(KraftyMcMillan(palabras_codigo,len(alfabeto_codigo))):
+    entropia=calcular_entropia(probabilidad_palabras,len(alfabeto_codigo))
+    print("La entropia resulta: ",entropia)
+    longitud_media= calcular_longitud_media(probabilidad_palabras)
+    print("La longitud media resulta: ",longitud_media)
+    if(KraftyMcMillan(probabilidad_palabras,len(alfabeto_codigo))):
         print("La codificación cumple con las inecuaciones de Kraft y McMillan")
     else:
         print("La codificación NO cumple con las inecuaciones de Kraft y McMillan")
