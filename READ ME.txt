@@ -1,0 +1,5 @@
+Codigo desarrollado con python.
+
+Ejecución requiere de tener instalado python y es por consola de la siguiente manera:
+
+python nombre_programa.py nombre_arch_texto.txt
