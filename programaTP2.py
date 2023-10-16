@@ -47,7 +47,7 @@ def KraftyMcMillan(palabras_codigo,cant_simbolos):
     K=0
     for palabra in palabras_codigo.items():
         K+= cant_simbolos ** -len(palabra[0])
-    return K<=1
+    return K
 
 def is_codigo_compacto(palabras_codigo,cant_simbolos):
     for palabra,probabilidad in palabras_codigo.items():
@@ -67,17 +67,19 @@ if len(sys.argv) ==2:
     probabilidad_palabras=genera_probabilidades_palabras_codigo(palabras_codigo)
     print("Las probabilidades de las palabras contenidas en el archivo son:")
     for palabra, probabilidad in probabilidad_palabras.items():
-        print(f"Palabra: {palabra} = {probabilidad:.4f}")
+        print(f" '{palabra}' = {probabilidad}")
     alfabeto_codigo= genera_alfabeto_codigo(probabilidad_palabras)
     print("El alfabeto resulta: ",alfabeto_codigo)
     entropia=calcular_entropia(probabilidad_palabras,len(alfabeto_codigo))
     print("La entropia resulta: ",entropia)
     longitud_media= calcular_longitud_media(probabilidad_palabras)
     print("La longitud media resulta: ",longitud_media)
-    if(KraftyMcMillan(probabilidad_palabras,len(alfabeto_codigo))):
+    K=KraftyMcMillan(probabilidad_palabras,len(alfabeto_codigo))
+    print("K = ", K)
+    if(K<=1):
         print("La codificación cumple con las inecuaciones de Kraft y McMillan")
         if is_codigo_instantaneo(palabras_codigo):
-            print("Las longitudes de las palabras constituyen un codigo instantaneo")
+            print("El codigo es instantaneo")
         else:
             print("No es instantaneo")
     else:
